@@ -12,7 +12,7 @@ const createAuthor = async function (req, res) {
     try {
 
         let { fname, lname, title, password, cpassword, email } = req.body
-        if (!fname || !lname || ! title || !password || !cpassword || !email) {
+        if (!fname || !lname || !title || !password || !cpassword || !email) {
             return res.status(400).send({ msg: "Bad Request please fill all the fields" })
         }
 
@@ -23,7 +23,8 @@ const createAuthor = async function (req, res) {
         }
 
         let userExist = await authorModel.findOne({ email: email })
-        if (userExist) { return res.status(422).send({ status: false, error: `ERROR! : ${email}this Email already exist` }) }
+        if (userExist) { return res.status(422).send({
+             status: false, error: `ERROR! : ${email}this Email already exist` }) }
 
 
         delete req.body["cpassword"] // we are deleting the cpassword because don't need to save in dataBase
@@ -54,7 +55,9 @@ const loginAuthor = async function (req, res) {
 
         if (!author) return res.status(422).send({ status: false, msg: "Email or the password is not corerct" });
 
-        let token = jwt.sign({ authorId: author._id.toString(), authorName: author.fname, authorEmail: author.email }, "SECRETKEYISTHEIMPORTANTPARTOFTOKEN");
+        let token = jwt.sign({
+             authorId: author._id.toString(), authorName: author.fname, authorEmail: author.email },
+              "SECRETKEYISTHEIMPORTANTPARTOFTOKEN");
 
         res.setHeader("x-auth-token", token);
         res.status(200).send({ status: true, data: token });

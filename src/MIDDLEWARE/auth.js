@@ -29,7 +29,8 @@ const jwtauth1 = async function (req, res, next) {
     if (!ObjectId.isValid(authorId)) { return res.status(422).send(`ERROR! This authorid: ${authorId} is invalid `) }
 
     let authorLoggedIn = decodedToken.authorId
-    if (authorId != authorLoggedIn) return res.status(401).send({ status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
+    if (authorId != authorLoggedIn) return res.status(401).send({ 
+      status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
 
     next()
 
@@ -66,17 +67,20 @@ const jwtauth2 = async function (req, res, next) {
 
     let blogId = req.params.blogId
     if (!blogId) res.status(400).send({ status: false, msg: "blogid is not present" })
-    if (!ObjectId.isValid(blogId)) { return res.status(422).send({ status: false, msg: `ERROR! This blogId: ${blogId} is invalid ` }) }
+    if (!ObjectId.isValid(blogId)) { return res.status(422).send({ 
+      status: false, msg: `ERROR! This blogId: ${blogId} is invalid ` }) }
 
     let blogObject = await BlogModel.find({ _id: blogId, isDeleted: false });
 
-    if (blogObject.length <= 0) { return res.status(404).send({ status: false, msg: `blog data with this blogId : ${blogId} is not Found` }) }
+    if (blogObject.length <= 0) { return res.status(404).send({ 
+      status: false, msg: `blog data with this blogId : ${blogId} is not Found` }) }
     let authorId = blogObject[0].authorId
 
     let authorLoggedIn = decodedToken.authorId
     console.log(authorId)
     console.log(authorLoggedIn)
-    if (authorId != authorLoggedIn) return res.status(401).send({ status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
+    if (authorId != authorLoggedIn) return res.status(401).send({ 
+      status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
 
     next()
   } catch (error) {
@@ -111,17 +115,20 @@ const jwtauth3 = async function (req, res, next) {
     console.log(blogId)
     if (blogId) {
 
-      if (!ObjectId.isValid(blogId)) { return res.status(422).send({ status: false, msg: `ERROR! This blogId: ${blogId} is invalid ` }) }
+      if (!ObjectId.isValid(blogId)) { return res.status(422).send({ 
+        status: false, msg: `ERROR! This blogId: ${blogId} is invalid ` }) }
 
       let blogObject = await BlogModel.find({ _id: blogId, isDeleted: false });
 
-      if (blogObject.length <= 0) { return res.status(404).send({ status: false, msg: `blog data with this blogId : ${blogId} is not Found` }) }
+      if (blogObject.length <= 0) { return res.status(404).send({ 
+        status: false, msg: `blog data with this blogId : ${blogId} is not Found` }) }
       let authorId = blogObject[0].authorId
 
       let authorLoggedIn = decodedToken.authorId
       console.log(authorId)
       console.log(authorLoggedIn)
-      if (authorId != authorLoggedIn) return res.status(401).send({ status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
+      if (authorId != authorLoggedIn) return res.status(401).send({ 
+        status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
       req.query.authorId = authorId;
       next()
 
@@ -137,7 +144,8 @@ const jwtauth3 = async function (req, res, next) {
       if (!ObjectId.isValid(authorId)) { return res.status(422).send(`ERROR! This authorid: ${authorId} is invalid `) }
 
       let authorLoggedIn = decodedToken.authorId
-      if (authorId != authorLoggedIn) return res.status(401).send({ status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
+      if (authorId != authorLoggedIn) return res.status(401).send({ 
+        status: false, msg: 'Author logged is not allowed to modify the requested authors data' })
       req.query.authorId = authorId
       next()
 

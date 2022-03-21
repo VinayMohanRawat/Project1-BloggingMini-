@@ -25,7 +25,8 @@ const authorSchema = new mongoose.Schema({
         validate: {
             validator: validator.isEmail,
             message: '{VALUE} is not a valid email',
-            isAsync: false //The validator dosn't play well with mongoose to get rid of the warning set isAsync to false
+            isAsync: false 
+            //The validator dosn't play well with mongoose to get rid of the warning set isAsync to false
 
 
         }
