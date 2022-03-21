@@ -11,17 +11,15 @@ const SECRET_KEY = process.env.SECRET_KEY
 const createAuthor = async function (req, res) {
     try {
 
-        if (Object.keys(req.body).length != 0) { return res.status(400).send({ msg: "BAD REQUEST" }) }
-
         let { fname, lname, title, password, cpassword, email } = req.body
-        if (!fname || !lname || title || !password || !cpassword || !email) {
+        if (!fname || !lname || ! title || !password || !cpassword || !email) {
             return res.status(400).send({ msg: "Bad Request please fill all the fields" })
         }
 
 
         if (!cpassword) { return res.status(400).send({ status: false, msg: "cpassword field must be required" }) }
         if (password != cpassword) {  // checking password password is matchng or not
-            return res.status(422).send({ error: "password are not matchong" })
+            return res.status(422).send({ error: "password are not matching" })
         }
 
         let userExist = await authorModel.findOne({ email: email })
@@ -54,9 +52,9 @@ const loginAuthor = async function (req, res) {
 
         let author = await authorModel.findOne({ email: email, password: password });
 
-        if (!author) return resstatus(422).send({ status: false, msg: "Email or the password is not corerct" });
+        if (!author) return res.status(422).send({ status: false, msg: "Email or the password is not corerct" });
 
-        let token = jwt.sign({ authorId: author._id.toString(), authorName: author.fname, authorEmail: author.email }, SECRET_KEY);
+        let token = jwt.sign({ authorId: author._id.toString(), authorName: author.fname, authorEmail: author.email }, "SECRETKEYISTHEIMPORTANTPARTOFTOKEN");
 
         res.setHeader("x-auth-token", token);
         res.status(200).send({ status: true, data: token });
